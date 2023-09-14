@@ -1,0 +1,29 @@
+name: CI Keycloak plugins
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/metadata-action@v4
+        id: metadata
+        with:
+          images: rg.fr-par.scw.cloud/thetribe/seniorgold-keycloak-plugins
+          tags: |
+            type=semver,enable=true,pattern={{version}}
+          flavor: |
+            latest=false
+      - uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.REGISTRY_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          file: Dockerfile
+          context: "{{defaultContext}}:."
+          tags: ${{ steps.metadata.outputs.tags }}

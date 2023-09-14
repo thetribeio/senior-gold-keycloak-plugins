@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  plugins:
+    image: seniorgold/keycloak-plugins:latest
+    container_name: sng_plugins
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
