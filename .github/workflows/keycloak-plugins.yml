@@ -1,6 +1,9 @@
 name: CI Keycloak plugins
 on: [workflow_dispatch]
 
+env:
+  REGISTRY_SERVER: rg.fr-par.scw.cloud/seniorgold
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,14 +13,14 @@ jobs:
       - uses: docker/metadata-action@v4
         id: metadata
         with:
-          images: rg.fr-par.scw.cloud/thetribe/seniorgold-keycloak-plugins
+          images: ${{ env.REGISTRY_SERVER }}/senior-gold-keycloak-plugins
           tags: |
             type=semver,enable=true,pattern={{version}},value=1.0.0
           flavor: |
             latest=false
       - uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.REGISTRY_SERVER }}
+          registry: ${{ env.REGISTRY_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       - name: Build and push
