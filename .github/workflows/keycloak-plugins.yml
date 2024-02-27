@@ -2,7 +2,7 @@ name: CI Keycloak plugins
 on: [workflow_dispatch]
 
 env:
-  REGISTRY_SERVER: rg.fr-par.scw.cloud/seniorgold
+  REGISTRY_SERVER: rg.fr-par.scw.cloud/senior-gold-docker-registry
 
 jobs:
   build:
